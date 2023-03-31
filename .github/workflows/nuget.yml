@@ -61,5 +61,5 @@ jobs:
           name: package
           path: ${{env.nuget_artifacts}}/*.nupkg
 
-#      - name: Publish packages to nuget.org
-#        run: dotnet nuget push ${{env.nuget_artifacts}}/*.nupkg --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json
+      - name: Publish packages to nuget.org
+        run: dotnet nuget push ${{env.nuget_artifacts}}/*.nupkg --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json
