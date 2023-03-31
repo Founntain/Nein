@@ -27,7 +27,7 @@ jobs:
         shell: bash
         run: |
           if [ $(git describe --exact-match --tags HEAD &> /dev/null; echo $?) == 0 ]; then
-            echo "::set-output name=VERSION::$(git describe --exact-match --tags HEAD)"
+            echo "version=$(git describe --exact-match --tags HEAD)" >> $GITHUB_OUTPUT
           else
             echo "fatal: no tag detected for HEAD. Workflow will now stop."
             exit 128;
@@ -42,7 +42,7 @@ jobs:
 
       - name: Set Artifacts Directory
         id: artifactsPath
-        run: echo "::set-output name=NUGET_ARTIFACTS::${{github.workspace}}/artifacts"
+        run: echo "nuget_artifacts=${{github.workspace}}/artifacts" >> $GITHUB_ENV
 
       - name: Setup .NET
         uses: actions/setup-dotnet@v3
@@ -53,13 +53,13 @@ jobs:
         run: dotnet build -c Release
 
       - name: Pack
-        run: dotnet pack -c Release osu.Framework.NativeLibs /p:Configuration=Release /p:Version=${{needs.check-if-tag.outputs.version}} /p:GenerateDocumentationFile=true -o ${{steps.artifactsPath.outputs.nuget_artifacts}}
+        run: dotnet pack -c Release Nein /p:Configuration=Release /p:Version=${{needs.check-if-tag.outputs.version}} /p:GenerateDocumentationFile=true -o ${{env.nuget_artifacts}}
 
       - name: Upload Artifacts
         uses: actions/upload-artifact@v3
         with:
           name: package
-          path: ${{steps.artifactsPath.outputs.nuget_artifacts}}/*.nupkg
+          path: ${{env.nuget_artifacts}}/*.nupkg
 
 #      - name: Publish packages to nuget.org
-#        run: dotnet nuget push ${{steps.artifactsPath.outputs.nuget_artifacts}}/*.nupkg --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json
+#        run: dotnet nuget push ${{env.nuget_artifacts}}/*.nupkg --api-key ${{ secrets.NUGET_API_KEY }} --source https://api.nuget.org/v3/index.json
