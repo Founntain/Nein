@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net7.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
+        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+        <Title>Nein</Title>
+        <Authors>Founntain</Authors>
+        <PackageId>Founntain.Nein</PackageId>
+        <PackageProjectUrl>https://github.com/Founntain/Nein</PackageProjectUrl>
+        <RepositoryUrl>https://github.com/Founntain/Nein</RepositoryUrl>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Avalonia" Version="0.10.19" />
+        <PackageReference Include="Avalonia.Skia" Version="0.10.19" />
+        <PackageReference Include="Material.Icons.Avalonia" Version="1.1.10" />
+        <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+        <PackageReference Include="ReactiveUI" Version="18.4.26" />
+    </ItemGroup>
+</Project>
