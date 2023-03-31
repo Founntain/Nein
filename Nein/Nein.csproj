@@ -3,7 +3,7 @@
     <PropertyGroup>
         <TargetFramework>net7.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
-        <Nullable>enable</Nullable>
+        <Nullable>annotations</Nullable>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <Title>Nein</Title>
