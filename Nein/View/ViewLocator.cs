@@ -1,3 +1,4 @@
+using System.Reflection;
 using Avalonia.Controls;
 using Avalonia.Controls.Templates;
 using Avalonia.Layout;
@@ -18,7 +19,7 @@ public class ViewLocator : IDataTemplate
         if (name == null)
             return OnFail("");
 
-        var type = Type.GetType(name);
+        var type = Assembly.GetAssembly(data.GetType())?.GetType(name);
 
         if (Locator.Current.GetService(type) is Control serviceView) return serviceView;
 
