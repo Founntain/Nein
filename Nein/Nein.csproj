@@ -11,6 +11,7 @@
         <PackageId>Founntain.Nein</PackageId>
         <PackageProjectUrl>https://github.com/Founntain/Nein</PackageProjectUrl>
         <RepositoryUrl>https://github.com/Founntain/Nein</RepositoryUrl>
+        <Version>1.0.1</Version>
     </PropertyGroup>
 
     <ItemGroup>
