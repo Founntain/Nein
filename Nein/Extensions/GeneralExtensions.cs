@@ -5,7 +5,7 @@ namespace Nein.Extensions;
 
 public static class GeneralExtensions
 {
-    public static void OpenUrl(string url)
+    public static void OpenUrl(string url, bool replaceAnd = false)
     {
         try
         {
@@ -15,8 +15,9 @@ public static class GeneralExtensions
         catch //If we fail we converter use the native platforms commands
         {
             if (RuntimeInformation.IsOSPlatform(OSPlatform.Windows))
-            {
-                url = url.Replace("&", "^&");
+            { 
+                if(replaceAnd)
+                    url = url.Replace("&", "^&");
 
                 Process.Start(new ProcessStartInfo(url)
                 {
