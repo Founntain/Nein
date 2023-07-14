@@ -4,8 +4,8 @@ using Avalonia.Media;
 using Avalonia.Media.Imaging;
 using Avalonia.Platform;
 using Avalonia.Skia;
-using Avalonia.Visuals.Media.Imaging;
 using SkiaSharp;
+using Splat;
 
 namespace Nein.Controls;
 
@@ -27,7 +27,9 @@ public class SkiaImage : Control
         AvaloniaProperty.Register<Image, BitmapInterpolationMode>(nameof(BitmapInterpolationMode));
 
     private RenderTargetBitmap _renderTarget;
-    private ISkiaDrawingContextImpl _skiaContext;
+    private SKBitmap _effectBitmap;
+    private SKCanvas _skiaCanvas;
+    private DrawingContext _skiaContext;
     private SKPaint _skPaint;
 
     public SKBitmap? Source
@@ -42,7 +44,7 @@ public class SkiaImage : Control
         set
         {
             SetValue(UriSourceProperty, value);
-            var assets = AvaloniaLocator.Current.GetService<IAssetLoader>();
+            var assets = Locator.Current.GetService<IAssetLoader>();
             var uri = new Uri(value, UriKind.Absolute);
             if (assets!.Exists(uri))
             {
@@ -70,7 +72,7 @@ public class SkiaImage : Control
         set => SetValue(BitMapInterpolationModeProperty, value);
     }
 
-    protected override void OnPropertyChanged<T>(AvaloniaPropertyChangedEventArgs<T> change)
+    protected override void OnPropertyChanged(AvaloniaPropertyChangedEventArgs change)
     {
         if (Source != null)
         {
@@ -81,21 +83,27 @@ public class SkiaImage : Control
                 _skPaint.IsAntialias = true;
                 _skPaint.ImageFilter = SKImageFilter.CreateBlur(BlurStrength, BlurStrength);
 
-                _renderTarget = new RenderTargetBitmap(new PixelSize(Source.Width, Source.Height),
-                    new Vector(96, 96));
+                _renderTarget = new RenderTargetBitmap(new PixelSize(Source.Width, Source.Height));
 
-                var skContext = _renderTarget.CreateDrawingContext(null);
-                _skiaContext = (ISkiaDrawingContextImpl) skContext;
-                _skiaContext.SkCanvas.Clear(new SKColor(255, 255, 255, 0));
-                _skiaContext.SkCanvas.DrawBitmap(Source, 0, 0, _skPaint);
+                _effectBitmap = Source.Copy();
+
+                _skiaCanvas = new SKCanvas(_effectBitmap);
+
+                _skiaCanvas.Clear(new SKColor(255, 255, 255, 0));
+                _skiaCanvas.DrawBitmap(Source, 0, 0, _skPaint);
+
+                _renderTarget.CopyPixels(new PixelRect(0, 0, Source.Width, Source.Height), _effectBitmap.GetPixels(), _effectBitmap.Pixels.Length, 0);
 
                 InvalidateVisual();
             }
             else if (change.Property == BlurStrengthProperty)
             {
                 _skPaint.ImageFilter = SKImageFilter.CreateBlur(BlurStrength, BlurStrength);
-                _skiaContext.SkCanvas.Clear(new SKColor(255, 255, 255));
-                _skiaContext.SkCanvas.DrawBitmap(Source, 0, 0, _skPaint);
+
+                _skiaCanvas.Clear(new SKColor(255, 255, 255));
+                _skiaCanvas.DrawBitmap(Source, 0, 0, _skPaint);
+
+                _renderTarget.CopyPixels(new PixelRect(0, 0, Source.Width, Source.Height), _effectBitmap.GetPixels(), _effectBitmap.Pixels.Length, 0);
 
                 InvalidateVisual();
             }
@@ -113,7 +121,7 @@ public class SkiaImage : Control
             var scaledSize = srcSize * scale;
             var destRect = new Rect(Bounds.Size).CenterRect(new Rect(scaledSize)).Intersect(new Rect(Bounds.Size));
             var sourceRect = new Rect(srcSize).CenterRect(new Rect(destRect.Size / scale));
-            context.DrawImage(_renderTarget, sourceRect, destRect, BitmapInterpolationMode);
+            context.DrawImage(_renderTarget, sourceRect, destRect);
         }
     }
 }

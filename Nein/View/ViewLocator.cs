@@ -12,7 +12,7 @@ public class ViewLocator : IDataTemplate
 {
     public bool SupportsRecycling => false;
 
-    public IControl Build(object data)
+    public Control Build(object data)
     {
         var name = data.GetType().FullName?.Replace("ViewModel", "View");
 
@@ -33,7 +33,7 @@ public class ViewLocator : IDataTemplate
         return data is BaseViewModel;
     }
 
-    private IControl OnFail(string name)
+    private Control OnFail(string name)
     {
         var button = new Button
         {

@@ -86,7 +86,7 @@ public class CascadingWrapPanel : Panel, INavigableContainer
     {
         var orientation = Orientation;
         var horiz = orientation == Orientation.Horizontal;
-        var index = from is not null ? Children.IndexOf((IControl) from) : -1;
+        var index = from is not null ? Children.IndexOf((Control) from) : -1;
 
         switch (direction)
         {
