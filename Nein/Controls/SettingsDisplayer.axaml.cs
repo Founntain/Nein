@@ -36,6 +36,15 @@ public partial class SettingsDisplayer : UserControl, ISettingsDisplayer
         set { SetValue(IconProperty, value); }
     }
 
+    public static readonly StyledProperty<bool> UseRoundedCornersProperty =
+        AvaloniaProperty.Register<SettingsDisplayer, bool>(nameof(UseRoundedCorners));
+
+    public bool UseRoundedCorners
+    {
+        get { return GetValue(UseRoundedCornersProperty); }
+        set { SetValue(UseRoundedCornersProperty, value); }
+    }
+
     public static readonly StyledProperty<Control> InteractionControlProperty =
         AvaloniaProperty.Register<SettingsDisplayer, Control>(nameof(InteractionControl));
 
@@ -64,6 +73,8 @@ public partial class SettingsDisplayer : UserControl, ISettingsDisplayer
 
     public void RefreshCorners()
     {
+        if(!UseRoundedCorners) return;
+
         var parent = this.GetLogicalParent();
 
         var parentChildren = parent.GetLogicalChildren().Where(x => (x as Visual)?.IsVisible ?? false).ToList();
