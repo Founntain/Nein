@@ -15,9 +15,9 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Avalonia" Version="0.10.22" />
-        <PackageReference Include="Avalonia.Skia" Version="0.10.22" />
-        <PackageReference Include="Material.Icons.Avalonia" Version="1.1.10" />
+        <PackageReference Include="Avalonia" Version="11.0.5" />
+        <PackageReference Include="Avalonia.Skia" Version="11.0.5" />
+        <PackageReference Include="Material.Icons.Avalonia" Version="2.0.1" />
         <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
         <PackageReference Include="ReactiveUI" Version="19.5.1" />
     </ItemGroup>
