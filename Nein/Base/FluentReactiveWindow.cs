@@ -1,9 +1,8 @@
 ﻿using Avalonia;
 using FluentAvalonia.UI.Windowing;
-using Nein.Base;
 using ReactiveUI;
 
-namespace OsuPlayer.Modules;
+namespace Nein.Base;
 
 public class FluentReactiveWindow<TViewModel> : AppWindow, IViewFor<TViewModel>, IViewFor, IActivatableView where TViewModel : ReactiveObject
 {
