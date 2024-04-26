@@ -1,8 +1,9 @@
 ﻿using System.Collections.ObjectModel;
 using System.Drawing;
 using System.Reflection;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 using DynamicData;
-using Newtonsoft.Json;
 using Splat;
 
 namespace Nein.Extensions;
@@ -84,8 +85,17 @@ public static class Extensions
         return service;
     }
 
-    public static T? ConvertObjectToJson<T>(this object obj)
+    public static T? ConvertObjectToJson<T>(this object obj, JsonSerializerOptions? options = null)
     {
-        return JsonConvert.DeserializeObject<T>(JsonConvert.SerializeObject(obj));
+        options ??= new JsonSerializerOptions()
+        {
+            NumberHandling = JsonNumberHandling.Strict,
+            IncludeFields = true,
+            WriteIndented = true,
+            AllowTrailingCommas = true,
+            PropertyNameCaseInsensitive = true,
+        };
+
+        return JsonSerializer.Deserialize<T>(JsonSerializer.Serialize(obj, options), options);
     }
 }
