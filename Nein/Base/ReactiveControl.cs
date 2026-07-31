@@ -27,7 +27,7 @@ public class ReactiveControl<TViewModel> : UserControl, IViewFor<TViewModel> whe
 
     public ReactiveControl()
     {
-        this.WhenActivated(disposables => { });
+        this.WhenActivated((Action<IDisposable> disposables) => { });
 
         var x = this.GetObservable(ViewModelProperty);
 

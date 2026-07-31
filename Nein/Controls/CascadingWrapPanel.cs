@@ -1,13 +1,12 @@
-﻿// This source file is adapted from the Windows Presentation Foundation project. 
-// (https://github.com/dotnet/wpf/) 
-// 
+﻿// This source file is adapted from the Windows Presentation Foundation project.
+// (https://github.com/dotnet/wpf/)
+//
 // Licensed to The Avalonia Project under MIT License, courtesy of The .NET Foundation.
 
 using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Input;
 using Avalonia.Layout;
-using DynamicData;
 using static System.Math;
 
 namespace Nein.Controls;

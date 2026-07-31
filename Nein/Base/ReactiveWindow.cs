@@ -27,7 +27,7 @@ public class ReactiveWindow<TViewModel> : Window, IViewFor<TViewModel> where TVi
 
     public ReactiveWindow()
     {
-        this.WhenActivated(disposables => { });
+        this.WhenActivated((Action<IDisposable> disposables) => { });
         this.GetObservable(DataContextProperty).Subscribe(OnDataContextChanged);
         this.GetObservable(ViewModelProperty).Subscribe(OnViewModelChanged);
     }
