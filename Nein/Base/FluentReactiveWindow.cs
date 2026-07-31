@@ -1,10 +1,11 @@
 ﻿using Avalonia;
+using Avalonia.Controls;
 using FluentAvalonia.UI.Windowing;
 using ReactiveUI;
 
 namespace Nein.Base;
 
-public class FluentReactiveWindow<TViewModel> : AppWindow, IViewFor<TViewModel>, IViewFor, IActivatableView where TViewModel : ReactiveObject
+public class FluentReactiveWindow<TViewModel> : Window, IViewFor<TViewModel>, IViewFor, IActivatableView where TViewModel : ReactiveObject
 {
     public static readonly StyledProperty<TViewModel> ViewModelProperty = AvaloniaProperty.Register<FluentReactiveWindow<TViewModel>, TViewModel>(nameof (ViewModel));
 
